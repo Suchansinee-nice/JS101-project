@@ -1,25 +1,27 @@
 function appendImage(keyword, index) {
-  const imageElement = document.createElement('Img'); //dom = api ที่ใช้เพื่อช่วยให้จัการ html ได้, html เป็นลักษณะแบบtext การจัดการข้อความทำได้ยาก จึงได้มีการแปลงเเป็น object ของ javascript , โดยสามารถนำ object พวกนี้มาจัดการเปลี่ยนแปลงข้อมูลบนหน้า html ได้ง่ายขึ้น
-  imageElement.src = `https://source.unsplash.com/400x225/?${keyword}&sig=${index}`; //จะเอาตัว img element ไปใส่เป็นลูกของ div ที่มี class ชื่อ gallery //การเข้าถึง object ใช้ . 
+  //document ใช้ครอป html ทั้งหมดเลย ซึ่ง document = object มี method หลายตัวให้เรียกใช้เพื่อจัดการเปลี่ยนแปลงหน้า html ได้
+  //document.createElement('Img') คือการสร้าง img element ภายใต้ document โดยจะเก็บ element นี้ในตัวแปร imageElement
+  const imageElement = document.createElement('Img'); //dom = api ที่ใช้เพื่อช่วยให้จัการ html ได้, html เป็นลักษณะแบบtext การจัดการข้อความทำได้ยาก จึงได้มีการแปลง text เเป็น object ของ javascript , โดยสามารถนำ object พวกนี้มาจัดการเปลี่ยนแปลงข้อมูลบนหน้า html ได้ง่ายขึ้น
+  imageElement.src = `https://source.unsplash.com/400x225/?${keyword}&sig=${index}`; //จะเอาตัว img element ไปใส่เป็นลูกของ div ที่มี class ชื่อ gallery //การเข้าถึง object ใช้ . //index เพื่อบอกว่าเอารูปที่เท่าไร จะได้ไม่ซ้ำกัน
   const galleryElem = document.querySelector('.gallery'); //สิ่งแรกคือต้องดึง elem มาก่อน จะดึงโดยใช้ class ของมัน ดึงด้วยคลาสจะต้องใส่ .นำหน้า
   galleryElem.appendChild(imageElement); //ใส่ img elem เป็นลูกของ gallery Elem
 }
 
 function removePhotos() {
-  const galleryElem = document.querySelector('.gallery');
-  galleryElem.innerHTML = '';
+  const galleryElem = document.querySelector('.gallery'); //ดึงจาก class gallery
+  galleryElem.innerHTML = ''; //inner html เป็น property ดึง html ภายใน div gallery ออกมาได้ เซตเป็นค่าว่าง ในที่นี้คือการลบค่าทั้งหมดที่เป็น content ของ (ภายใต้) div ทั้งหมดออกไปเป็นค่าว่าง
 }
 
 
-function searchPhotos(event) {
-  const keyword = event.target.value;
-  removePhotos();
-  if(event.key === 'Enter' && keyword !== ''){
+function searchPhotos(event) { //รับ event เสมอ
+  const keyword = event.target.value; //ค่าที่ user พิมพ์ ณ ปัจจุบัน 
+  removePhotos(); //ลบภาพเก่าออกก่อนที่จะไปโชว์ภาพ
+  if(event.key === 'Enter' && keyword !== ''){ //key ที่ user กดเป็นปุ่ม enter มั้ย , keyword ต้องไม่เป็นค่าว่าง ใช้แค่ keyword ก็ได้เพราะถ้าเป็นค่าว่าง keyword จะเป็นเท็จโดยอัตโนมัติ
       for(let i=1; i<=10;i++) {
       appendImage(keyword, i)
     }
   }
-  console.log(keyword);
+  // console.log(keyword);
 }
 
 function run() {
@@ -30,10 +32,11 @@ function run() {
   //   appendImage('dog', i)
   // }
 
-  //event ประโยชน์ dom คือเราจัดการกับ object ได้ อยากจะใช้ element ไหน เช่น input ก็ดึงมาได้, 
+  //event ประโยชน์ dom คือเราจัดการกับ object ได้ อยากจะใช้ element ไหน เช่น input ก็ดึงมาได้ อย่างอยากจะเช็ค eventของ input อะไรแบบนี้, 
   //จะเอาไปเพิ่มใส่ใน element อื่นก็ทำได้ หรือจะใช้ property ใดๆใน element ก็เรียกได้ เป็น object อย่างนึง
-  const inputElem = document.querySelector('input');
-  inputElem.addEventListener('keydown',searchPhotos);
+  //dom,event มันคือการเรียกใช้ object ต่างๆมาโดยใช้ dom แล้วจับ event จากพวก objectหือ element ที่เราไปดึงมาอีกที
+  const inputElem = document.querySelector('input'); //จะจับ event ที่ input field ต้องไปดึง input field ออกมาก่อน
+  inputElem.addEventListener('keydown',searchPhotos); //จะเอา input ที่ดึงมาได้มาใส่ eventlistener เข้าไป
 };
 
 run();
